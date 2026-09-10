@@ -34,6 +34,9 @@ fn main() {
         }
     }
 
-    byte_check_lib::ensure_elevated();
+    if !byte_check_lib::ensure_elevated() {
+        // An elevated copy was relaunched (Windows); the original exits.
+        std::process::exit(0);
+    }
     byte_check_lib::run();
 }
