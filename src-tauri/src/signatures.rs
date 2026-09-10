@@ -41,21 +41,57 @@ pub const HISTORY_PATTERNS: &[&str] = &[
     "rar x", "unrar", "7z x", "unzip", "keyauth", "eauth",
 ];
 
-/// Known antivirus process names for the Windows AV check.
+/// Known antivirus process names for the Windows AV check (fallback for AVs
+/// not registered with Windows Security Center). The primary source is the
+/// Security Center registration itself (see checks/av.rs).
 #[cfg(target_os = "windows")]
 pub const KNOWN_AV_PROCESSES: &[&str] = &[
-    "msmpeng.exe",  // Windows Defender
-    "avguard.exe",  // Avira
-    "avgnt.exe",    // Avast
-    "avastui.exe",  // Avast UI
-    "avp.exe",      // Kaspersky
-    "kavsvc.exe",   // Kaspersky service
-    "ekrn.exe",     // ESET
-    "bdagent.exe",  // Bitdefender
-    "mbamservice.exe", // Malwarebytes
-    "360tray.exe",  // 360 Total Security
-    "nortonsecurity.exe",
-    "mcafee.exe",
+    // Windows Defender / MSE
+    "msmpeng.exe", "msseces.exe",
+    // Norton / Symantec
+    "nortonsecurity.exe", "ccsvchst.exe", "navw32.exe",
+    // McAfee
+    "mcafee.exe", "mcshield.exe", "mfehcs.exe", "frameworkservice.exe",
+    "mfemms.exe", "mcapexe.exe", "mfefire.exe", "aemservice.exe",
+    // Kaspersky
+    "avp.exe", "kavsvc.exe", "ksde.exe", "kaspersky.exe",
+    // ESET
+    "ekrn.exe", "eguiproxy.exe",
+    // Bitdefender
+    "bdagent.exe", "bdservicehost.exe", "bdscan.exe",
+    // Avast
+    "avastui.exe", "avastsvc.exe", "aswidsagenta.exe",
+    // AVG
+    "avgnt.exe", "avgui.exe", "avgsvc.exe", "avgemc.exe", "avgtray.exe",
+    // Avira
+    "avguard.exe", "avshadow.exe",
+    // Malwarebytes
+    "mbamservice.exe", "mbamtray.exe",
+    // 360 Total Security
+    "360tray.exe", "360sd.exe", "360safe.exe", "zhudongfangyu.exe",
+    // Trend Micro
+    "pccntmon.exe", "tmbmsrv.exe", "tmccsf.exe", "ccevtmgr.exe", "tmproxy.exe",
+    // Sophos
+    "sophosui.exe", "swi_service.exe", "sophosfs.exe",
+    // Webroot
+    "wrsa.exe",
+    // Comodo
+    "cmdagent.exe",
+    // ZoneAlarm
+    "vsmon.exe",
+    // Panda
+    "psanhost.exe", "pavfwsrv.exe", "pavprsrv.exe",
+    // F-Secure
+    "fsaua.exe", "fssm32.exe", "fshoster32.exe",
+    // G Data
+    "avkcl.exe", "avktray.exe",
+    // Emsisoft
+    "a2service.exe", "a2guard.exe",
+    // Huorong (火绒)
+    "hipstray.exe", "wsctrl.exe", "usysdiag.exe",
+    // TotalAV / BullGuard / VIPRE / Adaware
+    "totalav.exe", "bullguard.exe", "vipremgr.exe", "adaware_service.exe",
+    "adawaretray.exe",
 ];
 
 /// Common shell rc files on Linux that may inject LD_PRELOAD.
