@@ -1,12 +1,13 @@
 use super::CheckReport;
 
-/// Process integrity — NON-FIXABLE.
+/// Scan interference sweep — NON-FIXABLE.
 ///
-/// Running cheat/loader/injector/debugger/anti-screenshare processes, an
-/// attached debugger (TracerPid) or injected/hooked system state means the
-/// scan environment is already compromised. We never auto-kill here.
+/// Running processes that block or kill the scan itself: anti-screenshare
+/// tools, streamproof/capture blockers, and tools that force-close Ocean.
+/// Detecting cheats (loaders, ghost clients, clickers) is Ocean's job — Byte
+/// Check only guards the scan.
 pub fn run() -> CheckReport {
-    let name = "Process integrity";
+    let name = "Scan interference sweep";
 
     #[cfg(target_os = "linux")]
     let findings = scan_linux();
@@ -18,7 +19,7 @@ pub fn run() -> CheckReport {
     let findings: Vec<String> = Vec::new();
 
     if findings.is_empty() {
-        CheckReport::pass("process", name, "No suspicious processes or attached debuggers.")
+        CheckReport::pass("process", name, "No scan-blocking or scan-killing processes.")
     } else {
         CheckReport::fail("process", name, false, findings.join("; "))
     }
@@ -43,21 +44,10 @@ fn scan_linux() -> Vec<String> {
                 .map(|s| s.trim().to_ascii_lowercase())
                 .unwrap_or_default();
 
-            // exact-name match
             if SUSPICIOUS_PROCESSES.iter().any(|s| name == *s)
                 || SUSPICIOUS_TOKENS.iter().any(|t| name.contains(t))
             {
                 found.push(format!("process '{name}' (pid {pid})"));
-            }
-
-            // attached debugger / tracer
-            if let Ok(status) = std::fs::read_to_string(format!("{path}/status")) {
-                if let Some(line) = status.lines().find(|l| l.starts_with("TracerPid:")) {
-                    let val = line.split_whitespace().nth(1).unwrap_or("0");
-                    if val != "0" {
-                        found.push(format!("debugger attached to '{name}' (pid {pid})"));
-                    }
-                }
             }
         }
     }

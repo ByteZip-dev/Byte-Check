@@ -86,8 +86,8 @@ fn debug_log(msg: &str) {
 
 fn all_checks() -> Vec<(&'static str, &'static str, fn() -> CheckReport, bool)> {
     vec![
-        ("process", "Process integrity", process::run, false),
-        ("overlay", "Overlay & injection sweep", overlay::run, true),
+        ("process", "Scan interference sweep", process::run, false),
+        ("overlay", "Injection & hook sweep", overlay::run, true),
         ("clock", "System clock sync", clock::run, true),
         ("screen", "Screen access permission", screen::run, true),
         ("ocean", "Ocean domain access", ocean::run, true),

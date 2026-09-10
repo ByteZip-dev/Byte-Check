@@ -2,11 +2,13 @@ use super::CheckReport;
 
 /// Overlay & injection sweep — FIXABLE.
 ///
-/// Injected modules, LD_PRELOAD/LD_AUDIT hijacks, AppInit_DLLs, IFEO debugger
-/// keys and active overlay/streamproof processes corrupt the scan. We can
-/// neutralize them and re-verify.
+/// Injected modules, LD_PRELOAD/LD_AUDIT hijacks, AppInit_DLLs, IFEO hijacks
+/// and streamproof/overlay processes corrupt the scan's view of the system
+/// (they trigger integrity findings or block capture). We neutralize them and
+/// re-verify. Named-cheat modules are Ocean's job; this sweep targets the
+/// injection mechanism itself.
 pub fn run() -> CheckReport {
-    let name = "Overlay & injection sweep";
+    let name = "Injection & hook sweep";
 
     #[cfg(target_os = "linux")]
     let findings = scan_linux();

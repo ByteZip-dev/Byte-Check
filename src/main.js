@@ -2,8 +2,8 @@ import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 
 const rows = {
-  process: { name: "Process integrity", fixable: false },
-  overlay: { name: "Overlay & injection sweep", fixable: true },
+  process: { name: "Scan interference sweep", fixable: false },
+  overlay: { name: "Injection & hook sweep", fixable: true },
   clock: { name: "System clock sync", fixable: true },
   screen: { name: "Screen access permission", fixable: true },
   ocean: { name: "Ocean domain access", fixable: true },

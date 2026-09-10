@@ -45,10 +45,10 @@
 
 ## ✨ What is Byte Check?
 
-**Byte Check** is the gatekeeper that runs *before* an Ocean Anticheat scan. It inspects the
-system for anything that would make the scan **inaccurate** — bypass methods, broken scan
-prerequisites, tampering — **auto-fixes what's safely fixable**, and only then tells you if
-you're ready to scan.
+**Byte Check** is the gatekeeper that runs *before* an Ocean Anticheat scan. It
+guards the **scan itself** — removing bypass methods and fixing broken
+prerequisites so the scan is as accurate as possible. **Catching cheats is
+Ocean's job; Byte Check makes sure Ocean can do it.**
 
 A small, frameless, always-on-top overlay. No install required.
 
@@ -57,7 +57,7 @@ A small, frameless, always-on-top overlay. No install required.
 <div style="flex:1 1 220px; background:#16181f; border:1px solid #2a2e37; border-radius:12px; padding:16px 18px;">
   <div style="font-size:22px;">🔍</div>
   <div style="font-weight:700; font-size:15px; margin:8px 0 4px;">Detects</div>
-  <div style="font-size:13px; color:#8b93a1; line-height:1.55;">Cheat loaders, injected modules, loader hijacks, clock tampering, blocked screen capture, domain blocks, anti-forensics.</div>
+  <div style="font-size:13px; color:#8b93a1; line-height:1.55;">Scan blockers, injection/hook mechanisms, clock tampering, blocked screen capture, domain blocks, anti-forensics. <i>Cheat detection stays with Ocean.</i></div>
 </div>
 
 <div style="flex:1 1 220px; background:#16181f; border:1px solid #2a2e37; border-radius:12px; padding:16px 18px;">
@@ -86,8 +86,8 @@ A small, frameless, always-on-top overlay. No install required.
 
 | # | Check | Auto-fix | What it looks for |
 |---|---|---:|---|
-| 1 | **Process integrity** | — | Cheat loaders, ghost clients, autoclickers, injectors, debuggers, anti-SS tools, attached debuggers (`TracerPid`) |
-| 2 | **Overlay & injection sweep** | ✅ | Injected modules / `memfd` trampolines in the JVM, `LD_PRELOAD`/`LD_AUDIT` hijacks, `AppInit_DLLs`, IFEO `Debugger` keys, streamproof/overlay processes |
+| 1 | **Scan interference sweep** | — | Anti-screenshare / streamproof / capture-blocker tools, anti-Ocean force-close tools — anything that blocks or kills the scan |
+| 2 | **Injection & hook sweep** | ✅ | Injected modules / `memfd` trampolines in the JVM, `LD_PRELOAD`/`LD_AUDIT` hijacks, `AppInit_DLLs`, IFEO `Debugger` keys — injection mechanisms that corrupt the scan |
 | 3 | **System clock sync** | ✅ | Clock skew vs real NTP (`time.google.com` → `pool.ntp.org` → `cloudflare`) |
 | 4 | **Screen access permission** | ✅ | Wayland XDG screencast portal, X11 session, DWM/Explorer on Windows |
 | 5 | **Ocean domain access** | ✅ | `anticheat.ac` blocked in the hosts file (removed — Ocean treats it as a bypass and crashes); broken DNS (VPN) → DNS flush + resolver restart; TLS handshake (`:443`) verified — VPN/firewall blocks reported as a warning |
@@ -114,8 +114,8 @@ A small, frameless, always-on-top overlay. No install required.
 <pre>
 <span style="color:#484f58;">$</span> <span>Byte Check</span> — pre-scan
 
-<span style="color:#4ade80;">✓</span> Process integrity            <span style="color:#484f58;">no suspicious processes</span>
-<span style="color:#4ade80;">✓</span> Overlay &amp; injection sweep    <span style="color:#484f58;">no injected modules</span>
+<span style="color:#4ade80;">✓</span> Scan interference sweep        <span style="color:#484f58;">no blockers, no force-close tools</span>
+<span style="color:#4ade80;">✓</span> Injection &amp; hook sweep          <span style="color:#484f58;">no injected modules or hijacks</span>
 <span style="color:#4ade80;">✓</span> System clock sync            <span style="color:#484f58;">within 60s of network time</span>
 <span style="color:#fbbf24;">↻</span> Screen access permission     <span style="color:#484f58;">portal restarted → re-checked → clear</span>
 <span style="color:#4ade80;">✓</span> Ocean domain access          <span style="color:#484f58;">anticheat.ac reachable</span>
@@ -208,8 +208,9 @@ Windows: %TEMP%\byte-check-debug.log
 
 - **Local-only trust.** A determined cheater can tamper with any client-side tool —
   server-side attestation (via the anticheat.ac Enterprise API) is the hardening path.
-- **Signature lists** are deliberately conservative to limit false positives and need
-  tuning against real Ocean behaviour.
+- **Signature lists** are deliberately conservative and focus on scan
+  interference, not cheat detection — that stays with Ocean. Tuning may still
+  be needed against real-world blocker/force-close tools.
 - Byte Check mirrors Ocean's documented detection systems — it is a **pre-scan gate**,
   not a substitute for the Ocean scan itself.
 
