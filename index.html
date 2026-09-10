@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Byte Check</title>
+<link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar" data-tauri-drag-region>
+      <div class="title-text" data-tauri-drag-region>Byte Check &mdash; pre-scan verification</div>
+    </div>
+
+    <div class="brand">
+      <h1>Byte Check</h1>
+      <p>Confirms your system is ready for an accurate Ocean scan before you connect to staff.</p>
+    </div>
+
+    <div class="checklist" id="checklist">
+      <div class="check-row state-pending" data-key="process">
+        <div class="icon">●</div>
+        <div class="name">Process integrity</div>
+        <div class="state">Queued</div>
+      </div>
+      <div class="check-row state-pending" data-key="overlay">
+        <div class="icon">●</div>
+        <div class="name">Overlay &amp; injection sweep</div>
+        <div class="state">Queued</div>
+      </div>
+      <div class="check-row state-pending" data-key="clock">
+        <div class="icon">●</div>
+        <div class="name">System clock sync</div>
+        <div class="state">Queued</div>
+      </div>
+      <div class="check-row state-pending" data-key="screen">
+        <div class="icon">●</div>
+        <div class="name">Screen access permission</div>
+        <div class="state">Queued</div>
+      </div>
+      <div class="check-row state-pending" data-key="ocean">
+        <div class="icon">●</div>
+        <div class="name">Ocean domain access</div>
+        <div class="state">Queued</div>
+      </div>
+      <div class="check-row state-pending" data-key="av">
+        <div class="icon">●</div>
+        <div class="name">Antivirus mode</div>
+        <div class="state">Queued</div>
+      </div>
+      <div class="check-row state-pending" data-key="trace">
+        <div class="icon">●</div>
+        <div class="name">Tamper log trace</div>
+        <div class="state">Queued</div>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <p class="label" id="resultLabel"></p>
+      <p class="detail" id="resultDetail"></p>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" id="runBtn">Run check</button>
+      <button class="btn-ghost" id="secondaryBtn" style="display:none"></button>
+    </div>
+    <div class="restore-av" id="restoreAvWrap" style="display:none">
+      <button class="btn-ghost" id="restoreAvBtn">Re-enable antivirus after scan</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
