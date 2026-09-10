@@ -1,159 +1,43 @@
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+<div align="center">
 
-:root {
-  --accent: #5b8def;
-  --ok: #4ade80;
-  --warn: #fbbf24;
-  --bad: #f87171;
-  --text: #e7e9ec;
-  --dim: #8b93a1;
-  --panel: #16181f;
-  --border: #2a2e37;
-}
+<svg width="560" height="230" viewBox="0 0 560 230" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5b8def">
+        <animate attributeName="stop-color" values="#5b8def;#4ade80;#fbbf24;#f87171;#5b8def" dur="8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#4ade80">
+        <animate attributeName="stop-color" values="#4ade80;#fbbf24;#f87171;#5b8def;#4ade80" dur="8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#5b8def">
+        <animate attributeName="stop-color" values="#f87171;#5b8def;#4ade80;#fbbf24;#f87171" dur="8s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+  </defs>
 
-/* ---------- hero ---------- */
-.hero { text-align: center; padding: 40px 0 8px; }
+  <g transform="translate(250 22)">
+    <rect x="-46" y="0" width="92" height="92" rx="20" fill="#16181f" stroke="#5b8def" stroke-width="4">
+      <animate attributeName="stroke-opacity" values="0.25;1;0.25" dur="2.4s" repeatCount="indefinite"/>
+    </rect>
+    <polygon points="-28,68 0,14 28,68 17,68 0,40 -17,68" fill="#5b8def">
+      <animate attributeName="opacity" values="0.7;1;0.7" dur="2.4s" repeatCount="indefinite"/>
+    </polygon>
+  </g>
 
-.gradient-title {
-  font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: 52px;
-  letter-spacing: -1px;
-  background: linear-gradient(90deg, #5b8def, #4ade80, #fbbf24, #f87171, #5b8def);
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient-slide 6s linear infinite;
-}
-@keyframes gradient-slide { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+  <text x="280" y="162" text-anchor="middle" font-size="56" font-weight="800" fill="url(#grad)">Byte Check</text>
 
-.typewriter {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 15px;
-  color: var(--dim);
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 2px solid var(--accent);
-  width: 0;
-  animation: typing 3.5s steps(46) forwards, blink 0.8s step-end infinite;
-}
-@keyframes typing { to { width: 46ch; } }
-@keyframes blink { 50% { border-color: transparent; } }
-
-.logo {
-  width: 110px; height: 110px;
-  animation: pulse 2.4s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { filter: drop-shadow(0 0 6px rgba(91,141,239,0.35)); }
-  50% { filter: drop-shadow(0 0 22px rgba(91,141,239,0.85)); }
-}
-
-.badges { margin: 22px 0 6px; }
-.badges img { margin: 2px 3px; transition: transform .2s ease; }
-.badges img:hover { transform: translateY(-3px) scale(1.06); }
-
-/* ---------- feature cards ---------- */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 14px;
-  margin: 20px 0;
-}
-.card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px 18px 16px;
-  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-}
-.card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
-  box-shadow: 0 10px 30px -8px rgba(91,141,239,0.35);
-}
-.card .ico { font-size: 22px; }
-.card .t { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; margin: 8px 0 4px; color: var(--text); }
-.card .d { font-size: 13px; color: var(--dim); line-height: 1.55; }
-
-/* ---------- outcome pills ---------- */
-.pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 14px 0 4px; }
-.pill {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12.5px;
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--panel);
-  color: var(--text);
-  transition: transform .2s ease;
-}
-.pill:hover { transform: scale(1.05); }
-.pill.ok { border-color: #2e5a3f; background: #10241a; }
-.pill.ok::before { content: "✓  "; color: var(--ok); font-weight: 700; }
-.pill.fix { border-color: #5a4a26; background: #241b10; }
-.pill.fix::before { content: "↻  "; color: var(--warn); font-weight: 700; }
-.pill.bad { border-color: #5a2e2e; background: #241414; }
-.pill.bad::before { content: "✕  "; color: var(--bad); font-weight: 700; }
-
-/* ---------- terminal ---------- */
-.term {
-  background: #0d1117;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12.5px;
-  margin: 18px 0;
-}
-.term .bar {
-  display: flex; gap: 6px; align-items: center;
-  padding: 8px 12px;
-  background: #161b22;
-  border-bottom: 1px solid var(--border);
-}
-.term .bar i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-.term .bar .r { background: #f87171; } .term .bar .y { background: #fbbf24; } .term .bar .g { background: #4ade80; }
-.term pre { margin: 0; padding: 14px 16px; color: var(--dim); line-height: 1.7; white-space: pre-wrap; }
-.term .ok  { color: var(--ok); }
-.term .warn { color: var(--warn); }
-.term .bad { color: var(--bad); }
-.term .dim { color: #484f58; }
-
-/* ---------- footer ---------- */
-.foot {
-  margin-top: 40px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--dim);
-  border-top: 1px solid var(--border);
-  padding-top: 16px;
-}
-.foot a { color: var(--accent); text-decoration: none; }
-</style>
-
-<div class="hero">
-
-<svg class="logo" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <rect x="8" y="8" width="496" height="496" rx="96" fill="#16181f" stroke="#2a2e37" stroke-width="8"/>
-  <polygon points="96,360 256,96 416,360 316,360 256,236 196,360" fill="#5b8def">
-    <animate attributeName="opacity" values="0.75;1;0.75" dur="2.4s" repeatCount="indefinite"/>
-  </polygon>
+  <text x="280" y="198" text-anchor="middle" font-size="16" fill="#8b93a1">pre-scan verification for Ocean Anticheat</text>
+  <rect x="455" y="182" width="3" height="15" fill="#5b8def">
+    <animate attributeName="opacity" values="0;1;0" dur="1s" repeatCount="indefinite"/>
+  </rect>
 </svg>
 
-<div class="gradient-title">Byte Check</div>
-
-<p><span class="typewriter">pre-scan verification for Ocean Anticheat</span></p>
-
-<div class="badges">
+<p style="margin:16px 0 0;">
   <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux-5b8def?style=for-the-badge&logo=windowsterminal&logoColor=white">
   <img alt="Stack" src="https://img.shields.io/badge/Rust%20%2B%20Tauri-v2-4ade80?style=for-the-badge&logo=rust&logoColor=white">
   <img alt="Version" src="https://img.shields.io/github/v/release/ByteZip-dev/Byte-Check?style=for-the-badge&color=fbbf24">
-  <img alt="For" src="https://img.shields.io/badge/for-Ocean%20Anticheat-8b93a1?style=for-the-badge&logo=shield&logoColor=white">
-</div>
+  <img alt="For" src="https://img.shields.io/badge/for-Ocean%20Anticheat-8b93a1?style=for-the-badge">
+</p>
 
 </div>
 
@@ -168,30 +52,30 @@ you're ready to scan.
 
 A small, frameless, always-on-top overlay. No install required.
 
-<div class="cards">
+<div style="display:flex; flex-wrap:wrap; gap:14px; margin:18px 0;">
 
-<div class="card">
-  <div class="ico">🔍</div>
-  <div class="t">Detects</div>
-  <div class="d">Cheat loaders, injected modules, loader hijacks, clock tampering, blocked screen capture, domain blocks, anti-forensics.</div>
+<div style="flex:1 1 220px; background:#16181f; border:1px solid #2a2e37; border-radius:12px; padding:16px 18px;">
+  <div style="font-size:22px;">🔍</div>
+  <div style="font-weight:700; font-size:15px; margin:8px 0 4px;">Detects</div>
+  <div style="font-size:13px; color:#8b93a1; line-height:1.55;">Cheat loaders, injected modules, loader hijacks, clock tampering, blocked screen capture, domain blocks, anti-forensics.</div>
 </div>
 
-<div class="card">
-  <div class="ico">🛠️</div>
-  <div class="t">Auto-fixes</div>
-  <div class="d">Kills overlay/injector processes, clears <code>LD_PRELOAD</code>/<code>AppInit_DLLs</code> hijacks, resyncs the clock, restores the screencast portal, removes hosts blocks, pauses AV per Ocean's guidance.</div>
+<div style="flex:1 1 220px; background:#16181f; border:1px solid #2a2e37; border-radius:12px; padding:16px 18px;">
+  <div style="font-size:22px;">🛠️</div>
+  <div style="font-weight:700; font-size:15px; margin:8px 0 4px;">Auto-fixes</div>
+  <div style="font-size:13px; color:#8b93a1; line-height:1.55;">Kills overlay/injector processes, clears <code>LD_PRELOAD</code>/<code>AppInit_DLLs</code> hijacks, resyncs the clock, restores the screencast portal, removes hosts blocks, pauses AV per Ocean's guidance.</div>
 </div>
 
-<div class="card">
-  <div class="ico">🔄</div>
-  <div class="t">Re-verifies</div>
-  <div class="d">Every fix is followed by a fresh re-check. Only a passing re-check grants eligibility — no blind fixes.</div>
+<div style="flex:1 1 220px; background:#16181f; border:1px solid #2a2e37; border-radius:12px; padding:16px 18px;">
+  <div style="font-size:22px;">🔄</div>
+  <div style="font-weight:700; font-size:15px; margin:8px 0 4px;">Re-verifies</div>
+  <div style="font-size:13px; color:#8b93a1; line-height:1.55;">Every fix is followed by a fresh re-check. Only a passing re-check grants eligibility — no blind fixes.</div>
 </div>
 
-<div class="card">
-  <div class="ico">⚖️</div>
-  <div class="t">Fair</div>
-  <div class="d">Never deletes evidence, never hides history. Non-fixable tampering means <b>Ineligible</b> — full stop.</div>
+<div style="flex:1 1 220px; background:#16181f; border:1px solid #2a2e37; border-radius:12px; padding:16px 18px;">
+  <div style="font-size:22px;">⚖️</div>
+  <div style="font-weight:700; font-size:15px; margin:8px 0 4px;">Fair</div>
+  <div style="font-size:13px; color:#8b93a1; line-height:1.55;">Never deletes evidence, never hides history. Non-fixable tampering means <b>Ineligible</b> — full stop.</div>
 </div>
 
 </div>
@@ -214,26 +98,31 @@ A small, frameless, always-on-top overlay. No install required.
 
 ## 🎯 Outcomes
 
-<div class="pills">
-  <span class="pill ok">Eligible</span>
-  <span class="pill fix">Eligible after auto-fix</span>
-  <span class="pill bad">Ineligible</span>
-</div>
+<p style="margin:8px 0;">
+  <span style="font-family:monospace; font-size:12.5px; padding:7px 15px; border-radius:999px; border:1px solid #2e5a3f; background:#10241a;">✓&nbsp; Eligible</span>
+  <span style="font-family:monospace; font-size:12.5px; padding:7px 15px; border-radius:999px; border:1px solid #5a4a26; background:#241b10;">↻&nbsp; Eligible after auto-fix</span>
+  <span style="font-family:monospace; font-size:12.5px; padding:7px 15px; border-radius:999px; border:1px solid #5a2e2e; background:#241414;">✕&nbsp; Ineligible</span>
+</p>
 
-<div class="term">
-  <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i>&nbsp; byte-check — live demo</div>
+<div style="background:#0d1117; border:1px solid #2a2e37; border-radius:12px; overflow:hidden; font-family:monospace; font-size:12.5px; margin:16px 0;">
+  <div style="display:flex; gap:6px; align-items:center; padding:8px 12px; background:#161b22; border-bottom:1px solid #2a2e37;">
+    <span style="width:10px; height:10px; border-radius:50%; background:#f87171; display:inline-block;"></span>
+    <span style="width:10px; height:10px; border-radius:50%; background:#fbbf24; display:inline-block;"></span>
+    <span style="width:10px; height:10px; border-radius:50%; background:#4ade80; display:inline-block;"></span>
+    <span style="color:#484f58; margin-left:6px;">byte-check — live demo</span>
+  </div>
 <pre>
-<span class="dim">$</span> <span style="color:var(--text)">Byte Check</span> — pre-scan
+<span style="color:#484f58;">$</span> <span>Byte Check</span> — pre-scan
 
-<span class="ok">✓</span> Process integrity            <span class="dim">no suspicious processes</span>
-<span class="ok">✓</span> Overlay &amp; injection sweep    <span class="dim">no injected modules</span>
-<span class="ok">✓</span> System clock sync            <span class="dim">within 60s of network time</span>
-<span class="warn">↻</span> Screen access permission     <span class="dim">portal restarted → re-checked → clear</span>
-<span class="ok">✓</span> Ocean domain access          <span class="dim">anticheat.ac reachable</span>
-<span class="ok">✓</span> Antivirus mode               <span class="dim">ready for scan</span>
-<span class="ok">✓</span> Tamper log trace            <span class="dim">clean</span>
+<span style="color:#4ade80;">✓</span> Process integrity            <span style="color:#484f58;">no suspicious processes</span>
+<span style="color:#4ade80;">✓</span> Overlay &amp; injection sweep    <span style="color:#484f58;">no injected modules</span>
+<span style="color:#4ade80;">✓</span> System clock sync            <span style="color:#484f58;">within 60s of network time</span>
+<span style="color:#fbbf24;">↻</span> Screen access permission     <span style="color:#484f58;">portal restarted → re-checked → clear</span>
+<span style="color:#4ade80;">✓</span> Ocean domain access          <span style="color:#484f58;">anticheat.ac reachable</span>
+<span style="color:#4ade80;">✓</span> Antivirus mode               <span style="color:#484f58;">ready for scan</span>
+<span style="color:#4ade80;">✓</span> Tamper log trace             <span style="color:#484f58;">clean</span>
 
-<span style="color:var(--ok);font-weight:700">OUTCOME: ELIGIBLE — you can start your scan.</span>
+<span style="color:#4ade80; font-weight:700;">OUTCOME: ELIGIBLE — you can start your scan.</span>
 </pre>
 </div>
 
@@ -251,9 +140,11 @@ A small, frameless, always-on-top overlay. No install required.
 > Everything is built automatically on native GitHub runners — Windows binaries are
 > compiled, linked and bundled on a real Windows machine, every single release.
 
+<p>
 <a href="https://github.com/ByteZip-dev/Byte-Check/releases/latest">
   <img alt="Download" src="https://img.shields.io/badge/⬇ DOWNLOAD%20LATEST%20RELEASE-5b8def?style=for-the-badge">
 </a>
+</p>
 
 ---
 
@@ -324,8 +215,8 @@ Windows: %TEMP%\byte-check-debug.log
 
 ---
 
-<div class="foot">
-  Built with 🦀 Rust + Tauri · for <a href="https://anticheat.ac">Ocean Anticheat</a> ·
-  <a href="https://github.com/ByteZip-dev/Byte-Check/releases">Releases</a> ·
-  <a href="https://github.com/ByteZip-dev/Byte-Check/issues">Issues</a>
-</div>
+<p align="center" style="margin-top:36px; font-size:12px; color:#8b93a1; border-top:1px solid #2a2e37; padding-top:14px;">
+  Built with 🦀 Rust + Tauri &nbsp;·&nbsp; for <a href="https://anticheat.ac">Ocean Anticheat</a>
+  &nbsp;·&nbsp; <a href="https://github.com/ByteZip-dev/Byte-Check/releases">Releases</a>
+  &nbsp;·&nbsp; <a href="https://github.com/ByteZip-dev/Byte-Check/issues">Issues</a>
+</p>
