@@ -34,8 +34,8 @@ pub fn ensure_elevated() -> bool {
 #[cfg(target_os = "windows")]
 fn is_elevated() -> bool {
     use windows_sys::Win32::Foundation::CloseHandle;
-    use windows_sys::Win32::Security::{GetTokenInformation, OpenProcessToken, TokenElevation, TOKEN_QUERY};
-    use windows_sys::Win32::System::Threading::GetCurrentProcess;
+    use windows_sys::Win32::Security::{GetTokenInformation, TokenElevation, TOKEN_QUERY};
+    use windows_sys::Win32::System::Threading::{GetCurrentProcess, OpenProcessToken};
 
     let mut token = 0 as windows_sys::Win32::Foundation::HANDLE;
     unsafe {
