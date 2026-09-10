@@ -13,17 +13,22 @@ pub fn run() -> CheckReport {
     #[cfg(target_os = "windows")]
     {
         match detect_av() {
-            AvState::Defender { realtime_on } if realtime_on => CheckReport::fail(
-                "av",
-                name,
-                true,
-                "Windows Defender realtime protection is on. Ocean recommends disabling it for an accurate scan. Byte Check will pause it and re-enable it afterwards.",
-            ),
-            AvState::Defender { realtime_on: false } => CheckReport::pass(
-                "av",
-                name,
-                "Windows Defender realtime protection is off (as Ocean recommends).",
-            ),
+            AvState::Defender { realtime_on } => {
+                if realtime_on {
+                    CheckReport::fail(
+                        "av",
+                        name,
+                        true,
+                        "Windows Defender realtime protection is on. Ocean recommends disabling it for an accurate scan. Byte Check will pause it and re-enable it afterwards.",
+                    )
+                } else {
+                    CheckReport::pass(
+                        "av",
+                        name,
+                        "Windows Defender realtime protection is off (as Ocean recommends).",
+                    )
+                }
+            }
             AvState::ThirdParty { names } => CheckReport::warning(
                 "av",
                 name,

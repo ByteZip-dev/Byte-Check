@@ -83,7 +83,11 @@ fn scan_windows() -> Vec<String> {
         .args(["usn", "queryjournal", "C:"])
         .output();
     if let Ok(out) = usn {
-        let text = String::from_utf8_lossy(&out.stdout) + &String::from_utf8_lossy(&out.stderr);
+        let text = format!(
+            "{}{}",
+            String::from_utf8_lossy(&out.stdout),
+            String::from_utf8_lossy(&out.stderr)
+        );
         if text.to_ascii_lowercase().contains("not found")
             || text.to_ascii_lowercase().contains("is not enabled")
         {
