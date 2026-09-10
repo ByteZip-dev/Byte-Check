@@ -83,6 +83,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          files: src-tauri/target/release/byte-check${{ matrix.platform == 'windows-latest' && '.exe' || '' }}
+          files: ${{ matrix.platform == 'windows-latest' && 'src-tauri/target/x86_64-pc-windows-msvc/release/byte-check.exe' || 'src-tauri/target/release/byte-check' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
