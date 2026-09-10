@@ -90,7 +90,7 @@ A small, frameless, always-on-top overlay. No install required.
 | 2 | **Overlay & injection sweep** | ✅ | Injected modules / `memfd` trampolines in the JVM, `LD_PRELOAD`/`LD_AUDIT` hijacks, `AppInit_DLLs`, IFEO `Debugger` keys, streamproof/overlay processes |
 | 3 | **System clock sync** | ✅ | Clock skew vs real NTP (`time.google.com` → `pool.ntp.org` → `cloudflare`) |
 | 4 | **Screen access permission** | ✅ | Wayland XDG screencast portal, X11 session, DWM/Explorer on Windows |
-| 5 | **Ocean domain access** | ✅ | `anticheat.ac` / `api.anticheat.ac` blocked in the hosts file (removed); DNS-level blocks reported as a warning |
+| 5 | **Ocean domain access** | ✅ | `anticheat.ac` blocked in the hosts file (removed — Ocean treats it as a bypass and crashes); broken DNS (VPN) → DNS flush + resolver restart; TLS handshake (`:443`) verified — VPN/firewall blocks reported as a warning |
 | 6 | **Antivirus mode** *(Windows)* | ✅ | Pauses Defender realtime protection per Ocean's recommendation, re-enables it after the scan; 3rd-party AV → warning |
 | 7 | **Tamper log trace** | — | Cleared prefetch, deleted USN journal, cleared event logs, `EnablePrefetcher=0`, execution-laundering history |
 

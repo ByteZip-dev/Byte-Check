@@ -5,30 +5,53 @@ use super::CheckReport;
 /// Ocean domain access — FIXABLE.
 ///
 /// Ocean must reach its servers (anticheat.ac / api.anticheat.ac) to upload
-/// scan results. A hosts-file block or DNS-level block would break the scan.
+/// scan results. Causes of a broken handshake, per Ocean's own docs:
+/// - hosts-file block of the domain (Ocean detects it as a bypass and crashes)
+/// - broken DNS (typically a VPN that changes the resolver) → TLS handshake crash
+/// - unstable connection / firewall → handshake crash
 pub fn run() -> CheckReport {
     let name = "Ocean domain access";
 
-    let findings = scan_hosts();
-
-    // A DNS resolution failure (with no hosts block explaining it) suggests a
-    // DNS-level block or connectivity issue. Report as a warning so it doesn't
-    // hard-block eligibility, but the user is told about it.
-    let mut warning: Option<String> = None;
-    if findings.is_empty() && !resolves() {
-        warning = Some(
-            "anticheat.ac does not resolve - a DNS-level block or network issue may be present.".into(),
+    let hosts_findings = scan_hosts();
+    if !hosts_findings.is_empty() {
+        return CheckReport::fail(
+            "ocean",
+            name,
+            true,
+            format!(
+                "{} Ocean detects this as a bypass method and refuses to run - Byte Check will remove the entry.",
+                hosts_findings.join("; ")
+            ),
         );
     }
 
-    match (findings.is_empty(), warning) {
-        (true, None) => CheckReport::pass("ocean", name, "Ocean's domains are reachable."),
-        (true, Some(w)) => CheckReport::warning("ocean", name, w),
-        (false, _) => CheckReport::fail("ocean", name, true, findings.join("; ")),
+    if !resolves() {
+        return CheckReport::fail(
+            "ocean",
+            name,
+            true,
+            "anticheat.ac does not resolve. A misconfigured DNS (often a VPN) breaks Ocean's TLS handshake. Byte Check will flush DNS caches and restart the resolver.",
+        );
     }
+
+    if !tls_reachable() {
+        return CheckReport::warning(
+            "ocean",
+            name,
+            "anticheat.ac resolves but port 443 is unreachable - a VPN, firewall or unstable connection may block Ocean's TLS handshake.",
+        );
+    }
+
+    CheckReport::pass("ocean", name, "Ocean's domains resolve and are reachable.")
 }
 
 pub fn fix() -> bool {
+    let hosts_fixed = fix_hosts();
+    let dns_fixed = flush_dns();
+    hosts_fixed || dns_fixed
+}
+
+fn fix_hosts() -> bool {
     // Remove hosts-file entries that block Ocean's domains.
 
     #[cfg(target_os = "linux")]
@@ -53,6 +76,31 @@ pub fn fix() -> bool {
             .collect();
         let new = kept.join("\n");
         std::fs::write(path, new).is_ok()
+    }
+
+    #[cfg(not(any(target_os = "linux", target_os = "windows")))]
+    {
+        false
+    }
+}
+
+fn flush_dns() -> bool {
+    #[cfg(target_os = "linux")]
+    {
+        // systemd-resolved (most distros). Restarting the resolver also picks
+        // up VPN DNS changes; both need root so they elevate per-operation.
+        let _ = super::run_privileged("resolvectl", &["flush-caches"]);
+        super::run_privileged("systemctl", &["restart", "systemd-resolved"])
+    }
+
+    #[cfg(target_os = "windows")]
+    {
+        // App runs elevated on Windows.
+        std::process::Command::new("ipconfig")
+            .arg("/flushdns")
+            .status()
+            .map(|s| s.success())
+            .unwrap_or(false)
     }
 
     #[cfg(not(any(target_os = "linux", target_os = "windows")))]
@@ -98,4 +146,20 @@ fn resolves() -> bool {
         .to_socket_addrs()
         .map(|mut it| it.next().is_some())
         .unwrap_or(false)
+}
+
+/// Try to open a TCP connection to Ocean's TLS endpoint. A resolvable domain
+/// that can't connect means a VPN, firewall or unstable connection is blocking
+/// the handshake — per Ocean's docs this crashes the scan.
+fn tls_reachable() -> bool {
+    use std::net::TcpStream;
+    use std::time::Duration;
+
+    let Ok(mut addrs) = ("anticheat.ac", 443).to_socket_addrs() else {
+        return false;
+    };
+    let Some(addr) = addrs.next() else {
+        return false;
+    };
+    TcpStream::connect_timeout(&addr, Duration::from_secs(4)).is_ok()
 }

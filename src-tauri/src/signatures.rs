@@ -16,12 +16,23 @@ pub const SUSPICIOUS_PROCESSES: &[&str] = &[
     "cheatengine", "x64dbg", "x32dbg", "ollydbg", "windbg", "ida", "ida64",
     // anti-screenshare / streamproof
     "antisstool", "anti-ss", "antiss", "streamproof", "ssblocker",
+    // anti-ocean / force-close tools (Ocean's docs: "Ocean just closes or
+    // crashes" is a sign of a bypass that forcefully closes Ocean)
+    "processkiller", "taskkiller", "killswitch", "oceanblocker", "antiocean",
+    "sskiller", "forceclose", "crashinjector", "anticrash",
     // generic loaders
     "loader", "cracked-client",
 ];
 
 /// Substring tokens with very high confidence (contained anywhere in the name).
-pub const SUSPICIOUS_TOKENS: &[&str] = &["autoclicker", "cheatengine", "x64dbg", "antiscreenshare"];
+pub const SUSPICIOUS_TOKENS: &[&str] = &[
+    "autoclicker",
+    "cheatengine",
+    "x64dbg",
+    "antiscreenshare",
+    "killocean",
+    "processkiller",
+];
 
 /// Names that are always legitimate overlay/injection mechanisms that must be
 /// whitelisted (e.g. Steam overlay on Linux).
