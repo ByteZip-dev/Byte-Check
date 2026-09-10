@@ -152,7 +152,7 @@
   <img alt="Platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux-5b8def?style=for-the-badge&logo=windowsterminal&logoColor=white">
   <img alt="Stack" src="https://img.shields.io/badge/Rust%20%2B%20Tauri-v2-4ade80?style=for-the-badge&logo=rust&logoColor=white">
   <img alt="Version" src="https://img.shields.io/github/v/release/ByteZip-dev/Byte-Check?style=for-the-badge&color=fbbf24">
-  <img alt="License" src="https://img.shields.io/github/license/ByteZip-dev/Byte-Check?style=for-the-badge&color=8b93a1">
+  <img alt="For" src="https://img.shields.io/badge/for-Ocean%20Anticheat-8b93a1?style=for-the-badge&logo=shield&logoColor=white">
 </div>
 
 </div>
