@@ -67,9 +67,13 @@ jobs:
           releaseBody: |
             Pre-scan verification for Ocean Anticheat.
 
-            **What's included**
-            - **Windows:** installer (`.msi`/`.exe`) — runs elevated via UAC
-            - **Linux:** AppImage (single-file, executable), `.deb`, `.rpm`
+            **🚀 Portable (no install needed)**
+            - **Windows:** `Byte-Check-portable.exe` — download and run, done
+            - **Linux:** `Byte-Check-portable` — chmod +x and run
+
+            **Installers**
+            - **Windows:** `.msi` / `.exe` (runs elevated via UAC)
+            - **Linux:** AppImage (single-file), `.deb`, `.rpm`
 
             Checks performed: process integrity, overlay & injection sweep, system
             clock sync, screen access permission, Ocean domain access (`anticheat.ac`),
@@ -78,11 +82,19 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
 
+      - name: Prepare portable binary
+        run: |
+          if [ "${{ matrix.platform }}" == "windows-latest" ]; then
+            cp src-tauri/target/x86_64-pc-windows-msvc/release/byte-check.exe "Byte-Check-portable.exe"
+          else
+            cp src-tauri/target/release/byte-check "Byte-Check-portable"
+          fi
+
       - name: Upload raw binary to release
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          files: ${{ matrix.platform == 'windows-latest' && 'src-tauri/target/x86_64-pc-windows-msvc/release/byte-check.exe' || 'src-tauri/target/release/byte-check' }}
+          files: ${{ matrix.platform == 'windows-latest' && 'Byte-Check-portable.exe' || 'Byte-Check-portable' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
