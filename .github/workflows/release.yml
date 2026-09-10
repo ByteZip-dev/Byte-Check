@@ -83,6 +83,7 @@ jobs:
           args: ${{ matrix.args }}
 
       - name: Prepare portable binary
+        shell: bash
         run: |
           if [ "${{ matrix.platform }}" == "windows-latest" ]; then
             cp src-tauri/target/x86_64-pc-windows-msvc/release/byte-check.exe "Byte-Check-portable.exe"
